@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+#define PRECISION 1e-3
+
+// The Function to calculate the currents and voltage
+void calculateCircuitValues(int Vs, int R1, int R2, int R3, double *I1, double *I2, double *I3, double *Vout) {
+*I1 = (double)Vs / R1;
+*I2 = (double)(Vs - *Vout) / R2;
+*I3 = *Vout / R3;
+*Vout = (*I1 * R1) - (*I2 * R2);
+}
+
+int main() {
+int Vs, R1, R2, R3;
+double userI1, userI2, userI3, userVout; // Changed variable names to avoid conflicts
+double I1, I2, I3, Vout; // The variables to store calculated values
+char userInput[20];
+
+while (1) {
+// we will Generate random values for Vs, R1, R2, and R3
+Vs = rand() % 10 + 1;
+R1 = rand() % 20 + 1;
+R2 = rand() % 20 + 1;
+R3 = rand() % 20 + 1;
+
+printf("Randomly generated values:\n");
+printf("Vs = %d\nR1 = %d\nR2 = %d\nR3 = %d\n", Vs, R1, R2, R3);
+
+// we Calculate the different circuit values 
+calculateCircuitValues(Vs, R1, R2, R3, &I1, &I2, &I3, &Vout);
+
+printf("\nEnter your answers (I1, I2, I3, Vout): ");
+scanf("%lf %lf %lf %lf", &userI1, &userI2, &userI3, &userVout);
+
+// initiate Checking the correctness of the answers of users
+if (fabs(userI1 - I1) < PRECISION && fabs(userI2 - I2) < PRECISION &&
+fabs(userI3 - I3) < PRECISION && fabs(userVout - Vout) < PRECISION) {
+printf("Success! Your answers are correct.\n");
+} else {
+printf("Failure! Your answers are incorrect.\n");
+}
+
+printf("\nEnter 'exit' to quit, or press Enter to generate new values: ");
+scanf("%s", userInput);
+
+if (strcmp(userInput, "exit") == 0) {
+break;
+}
+}
+
+return 0;
+}
+
+
+
+
+

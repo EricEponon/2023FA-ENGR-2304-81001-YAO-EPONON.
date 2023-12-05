@@ -1,0 +1,8 @@
+/* 2023FA-ENGR-2304-81001-P00-YAo-Eponon*/
+#include<stdio.h>
+int main(){
+    printf(" Hello, this is Eric Eponon ! ");
+    printf(" Student of  ENGR 2304 - Programming for Engineers at Dallas College");
+    return 0;
+}
+

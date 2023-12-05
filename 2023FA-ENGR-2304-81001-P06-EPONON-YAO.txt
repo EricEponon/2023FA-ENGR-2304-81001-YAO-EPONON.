@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to calculate the minimum value
+int calculateMin(int data[], int n) {
+int min = data[0];
+for (int i = 1; i < n; i++) {
+if (data[i] < min) {
+min = data[i];
+}
+}
+return min;
+}
+
+// Function to calculate the maximum value
+int calculateMax(int data[], int n) {
+int max = data[0];
+for (int i = 1; i < n; i++) {
+if (data[i] > max) {
+max = data[i];
+}
+}
+return max;
+}
+
+// Function to calculate the mode
+int calculateMode(int data[], int n) {
+int mode = data[0];
+int maxCount = 1;
+
+for (int i = 0; i < n; i++) {
+int count = 0;
+
+for (int j = 0; j < n; j++) {
+if (data[j] == data[i]) {
+count++;
+}
+}
+
+if (count > maxCount) {
+maxCount = count;
+mode = data[i];
+}
+}
+
+return mode;
+}
+
+// Function to calculate the standard deviation
+float calculateStandardDeviation(int data[], int n, float mean) {
+float variance = 0;
+for (int i = 0; i < n; i++) {
+variance += (data[i] - mean) * (data[i] - mean);
+}
+return sqrt(variance / n);
+}
+
+// Function to calculate the variance
+float calculateVariance(int data[], int n, float mean) {
+float variance = 0;
+for (int i = 0; i < n; i++) {
+variance += (data[i] - mean) * (data[i] - mean);
+}
+return variance / n;
+}
+
+// Function to display the report of the data
+void displayReport(int data[], int n) {
+printf("Daily Unit Production Report:\n");
+printf("Data: ");
+for (int i = 0; i < n; i++) {
+printf("%d ", data[i]);
+}
+printf("\n");
+
+int min = calculateMin(data, n);
+int max = calculateMax(data, n);
+int mode = calculateMode(data, n);
+float mean = (float)calculateMax(data, n);
+float stdDev = calculateStandardDeviation(data, n, mean);
+float variance = calculateVariance(data, n, mean);
+
+printf("Minimum: %d\n", min);
+printf("Maximum: %d\n", max);
+printf("Mode: %d\n", mode);
+printf("Mean: %.2f\n", mean);
+printf("Standard Deviation: %.2f\n", stdDev);
+printf("Variance: %.2f\n", variance);
+}
+
+// Function to search for a value in the data
+void searchData(int data[], int n) {
+int target;
+printf("Enter the value to search for: ");
+scanf("%d", &target);
+
+for (int i = 0; i < n; i++) {
+if (data[i] == target) {
+printf("%d found at index %d.\n", target, i);
+return;
+}
+}
+printf("%d not found in the data.\n", target);
+}
+
+int main() {
+int data[] = {18, 31, 31, 39, 44, 45, 47};
+int n = sizeof(data) / sizeof(data[0]);
+int choice;
+
+while (1) {
+printf("\nDaily Unit Production Analysis Menu\n");
+printf("1. Display Report\n");
+printf("2. Search Value\n");
+printf("3. Exit\n");
+printf("Enter your choice: ");
+scanf("%d", &choice);
+
+switch (choice) {
+case 1:
+displayReport(data, n);
+break;
+case 2:
+searchData(data, n);
+break;
+case 3:
+printf("Exiting the program. Goodbye!\n");
+return 0;
+default:
+printf("Invalid choice. Please try again.\n");
+}
+}
+
+return 0;
+}
+

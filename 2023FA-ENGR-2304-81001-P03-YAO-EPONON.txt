@@ -1,0 +1,22 @@
+#include <stdio.h>
+// numbers used to determine the equations 
+int main() {
+double a1 = 4.0, b1 = 2.0, c1 = 7.0;
+double a2 = 9.0, b2 = -3.0, c2 = 11.0;
+// let’s Calculate determinants of the equations
+double determinant = a1 * b2 - a2 * b1;
+if (determinant == 0) {
+printf("The system of equations has no unique solution.\n");
+} else {
+// Calculate the solutions
+double x = (c1 * b2 - c2 * b1) / determinant;
+double y = (a1 * c2 - a2 * c1) / determinant;
+
+// print the results 
+printf("The solution to the system of equations is:\n");
+printf("x = %.2f\n", x);
+printf("y = %.2f\n", y);
+}
+return 0;
+}
+

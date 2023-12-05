@@ -1,0 +1,193 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Function to convert decimal to binary and vice versa
+void decimalToBinaryAndBinaryToDecimal(int decimal) {
+printf("Decimal to Binary Conversion:\n");
+printf("Decimal: %d\nBinary: ", decimal);
+
+// Ensure the input
+if (decimal < -127 || decimal > 127) {
+printf("Input out of range. Please enter a number between -127 and 127.\n\n");
+return;
+}
+
+// Handling negative numbers using two's complement
+if (decimal < 0) {
+printf("1");
+decimal = 128 + decimal; // Convert to positive equivalent
+} else {
+printf("0");
+}
+
+// Improved loop for binary conversion
+for (int i = 64; i > 0; i /= 2) {
+printf("%d", (decimal & i) ? 1 : 0);
+}
+
+printf("\n\n");
+
+// Binary to Decimal Conversion
+char binary[9];
+printf("Binary to Decimal Conversion:\n");
+printf("Binary: ");
+scanf("%s", binary);
+
+// Handling negative numbers using two's complement
+int resultDecimal = strtol(binary, NULL, 2);
+if (binary[0] == '1') {
+resultDecimal = resultDecimal - 256; // Convert to negative equivalent
+}
+
+// Check if the result is within the valid range
+if (resultDecimal < -127 || resultDecimal > 127) {
+printf("Invalid binary input. Result out of range.\n\n");
+return;
+}
+
+printf("Decimal: %d\n\n", resultDecimal);
+}
+
+// ... (unchanged)
+
+int main() {
+// ... (unchanged)
+}
+// Function to convert hexadecimal to binary and vice versa
+void hexToBinaryAndBinaryToHex(char *hex) {
+printf("Hex to Binary Conversion:\n");
+printf("Hex: 0x%s\nBinary: ", hex);
+
+// Convert each hexadecimal digit to 4-bit binary
+for (int i = 0; hex[i] != '\0'; ++i) {
+char binary[5];
+switch (hex[i]) {
+case '0':
+strcpy(binary, "0000");
+break;
+case '1':
+strcpy(binary, "0001");
+break;
+case '2':
+strcpy(binary, "0010");
+break;
+case '3':
+strcpy(binary, "0011");
+break;
+case '4':
+strcpy(binary, "0100");
+break;
+case '5':
+strcpy(binary, "0101");
+break;
+case '6':
+strcpy(binary, "0110");
+break;
+case '7':
+strcpy(binary, "0111");
+break;
+case '8':
+strcpy(binary, "1000");
+break;
+case '9':
+strcpy(binary, "1001");
+break;
+case 'A':
+case 'a':
+strcpy(binary, "1010");
+break;
+case 'B':
+case 'b':
+strcpy(binary, "1011");
+break;
+case 'C':
+case 'c':
+strcpy(binary, "1100");
+break;
+case 'D':
+case 'd':
+strcpy(binary, "1101");
+break;
+case 'E':
+case 'e':
+strcpy(binary, "1110");
+break;
+case 'F':
+case 'f':
+strcpy(binary, "1111");
+break;
+default:
+printf("Invalid hexadecimal input.\n\n");
+return;
+}
+printf("%s", binary);
+}
+
+printf("\n\n");
+
+// Binary to Hex Conversion
+char binary[65];
+printf("Binary to Hex Conversion:\n");
+printf("Binary: ");
+scanf("%s", binary);
+
+int len = strlen(binary);
+if (len % 4 != 0) {
+printf("Invalid binary input. Must be a multiple of 4.\n\n");
+return;
+}
+
+for (int i = 0; i < len; i += 4) {
+char nibble[5];
+strncpy(nibble, &binary[i], 4);
+nibble[4] = '\0';
+
+int decimal = strtol(nibble, NULL, 2);
+
+// Print hexadecimal equivalent
+if (decimal < 10) {
+printf("%d", decimal);
+} else {
+printf("%c", 'A' + decimal - 10);
+}
+}
+
+printf("\n\n");
+}
+
+int main() {
+int choice;
+int decimal;
+char hex[17]; // 16-bit hexadecimal
+char binary[65]; // 64-bit binary
+
+do {
+printf("Menu:\n");
+printf("1. Decimal to Binary and Binary to Decimal\n");
+printf("2. Hex to Binary and Binary to Hex\n");
+printf("0. Exit\n");
+printf("Enter your choice: ");
+scanf("%d", &choice);
+
+switch (choice) {
+case 1:
+printf("Enter a decimal number between -127 and 127: ");
+scanf("%d", &decimal);
+decimalToBinaryAndBinaryToDecimal(decimal);
+break;
+case 2:
+printf("Enter a 16-bit hexadecimal number: ");
+scanf("%s", hex);
+hexToBinaryAndBinaryToHex(hex);
+break;
+case 0:
+printf("Exiting program. Goodbye!\n");
+break;
+default:
+printf("Invalid choice. Please enter a valid option.\n");
+}
+} while (choice != 0);
+
+return 0;
+}

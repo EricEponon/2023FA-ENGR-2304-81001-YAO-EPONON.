@@ -1,0 +1,129 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+char board[3][3]; // The Tic-Tac-Toe board
+
+// The Function to introduce the Board
+void initializeBoard() {
+for (int i = 0; i < 3; i++) {
+for (int j = 0; j < 3; j++) {
+board[i][j] = ' ';
+}
+}
+}
+
+// The Function to print the Board
+void printBoard() {
+system("clear"); // Use "cls" on Windows
+printf("Tic-Tac-Toe\n");
+printf("-------------\n");
+for (int i = 0; i < 3; i++) {
+for (int j = 0; j < 3; j++) {
+printf("|%c", board[i][j]);
+}
+printf("|\n-------------\n");
+}
+printf("\n");
+}
+
+// The Function to check for which is the winner
+int checkWin(char player) {
+// Check rows and columns
+for (int i = 0; i < 3; i++) {
+if (board[i][0] == player && board[i][1] == player && board[i][2] == player) return 1;
+if (board[0][i] == player && board[1][i] == player && board[2][i] == player) return 1;
+}
+
+// let's Check diagonals
+if (board[0][0] == player && board[1][1] == player && board[2][2] == player) return 1;
+if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return 1;
+
+return 0;
+}
+
+// Function to check if the board is really full
+int isBoardFull() {
+for (int i = 0; i < 3; i++) {
+for (int j = 0; j < 3; j++) {
+if (board[i][j] == ' ') {
+return 0; // There is an empty spot
+}
+}
+}
+return 1; // Board is full
+}
+
+// Function for a player's move
+void playerMove(char player) {
+int row, col;
+do {
+printf("Player %c's (%c) turn. Enter row (0-2) and column (0-2): ", player, player);
+scanf("%d %d", &row, &col);
+} while (row < 0 || row >= 3 || col < 0 || col >= 3 || board[row][col] != ' ');
+
+board[row][col] = player;
+printBoard();
+}
+
+// Function for the computer's move
+void computerMove(char player) {
+printf("Player %c's (%c) turn...\n", player, player);
+srand(time(NULL));
+int row, col;
+do {
+row = rand() % 3;
+col = rand() % 3;
+} while (board[row][col] != ' ');
+
+printf("Computer chooses row %d and column %d.\n", row, col);
+board[row][col] = player;
+printBoard();
+}
+
+int main() {
+char player1, player2;
+int currentPlayer;
+int movesPlayer1 = 0, movesPlayer2 = 0;
+
+printf("Tic-Tac-Toe Game\n");
+printf("Player 1, do you want to be X or O? ");
+scanf(" %c", &player1);
+
+if (player1 == 'X' || player1 == 'x') {
+player2 = 'O';
+} else {
+player2 = 'X';
+}
+
+initializeBoard();
+currentPlayer = (rand() % 2) + 1;
+printBoard();
+
+while (1) {
+if (currentPlayer == 1) {
+playerMove(player1);
+movesPlayer1++;
+} else {
+computerMove(player2);
+movesPlayer2++;
+}
+
+if (checkWin(player1)) {
+printf("Player 1 (%c) wins!\n", player1);
+break;
+} else if (checkWin(player2)) {
+printf("Player 2 (%c) wins!\n", player2);
+break;
+} else if (isBoardFull()) {
+printf("It's a draw!\n");
+break;
+} else if (movesPlayer1 >= 3 && movesPlayer2 >= 3) {
+// Switch turns after both players have made at least 3 moves
+currentPlayer = (currentPlayer == 1) ? 2 : 1;
+}
+}
+
+return 0;
+}
+
